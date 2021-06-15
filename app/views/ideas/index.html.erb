@@ -1,0 +1,26 @@
+<div class="flex flex-wrap items-start justify-start">
+<%= render 'shared/multi_select'%>
+<%= will_paginate @ideas%>
+  <% @ideas.each do |idea| %>
+    <div class="relative w-full p-6 border-2 border-green-700 rounded-lg lg:w-1/4 lg:mr-8">
+      <%= image_tag idea.thumbnail.variant(resize_to_limit: [600, 400]), class: "rounded" if idea.thumbnail.present? %>
+      <h2 class="mb-2 text-2xl font-bold"><%= uname? idea.user_id %>'s <%= idea.title %></h2>
+      <div class="my-1"></div>
+      available stake: <%= idea.stake %> %
+   
+      <div class="grid grid-cols-3 gap-4">
+        <% if author_of(idea) %>
+          <%= link_to 'Edit Project', edit_idea_path(idea), class: "btn btn-default border-2 border-green-700 text-gray-100 bg-gray-900 inline-block text-center my-2" %>
+        <%end%>
+        <%= link_to 'View Project', idea, class: "btn btn-default border-2 border-green-700 text-gray-100 bg-gray-900 inline-block text-center my-2" %>
+        <% if author_of(idea) %>
+          <%= link_to 'Delete Project', idea, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-default border-2 border-green-700 text-gray-100 bg-gray-900 inline-block text-center my-2" %>
+        <%end%>
+      </div>
+    </div>    
+  <% end %>
+  <div class="mx-auto text-center my-4">
+    <%= will_paginate @ideas %>
+  </div>
+</div>
+<%= link_to 'New Idea', new_idea_path %>

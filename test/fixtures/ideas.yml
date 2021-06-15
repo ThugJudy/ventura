@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  decription: MyText
+  domain: MyString
+  stake: 9.99
+  user: 
+
+two:
+  title: MyString
+  decription: MyText
+  domain: MyString
+  stake: 9.99
+  user: 

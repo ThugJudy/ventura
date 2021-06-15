@@ -1,0 +1,46 @@
+<%= form_with( model: idea, local: true, multipart: true) do |form| %>
+  <% if idea.errors.any? %>
+    <div id="error_explanation" class="bg-white p-6 rounded text-red-500 mb-5">
+      <h2  class="text-red-500 font-bold"><%= pluralize(idea.errors.count, "error") %> prohibited this idea from being saved:</h2>
+      <ul>
+        <% idea.errors.full_message.each do |error| %>
+          <li><%= error %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+ <div class="mb-6">
+    <%= form.label :thumbnail, "Idea Thumbnail", class: "label" %>
+    <%= form.file_field :thumbnail %>
+  </div>
+
+  <div class="mb-6">
+    <%= form.label :title, class: "label" %>
+    <%= form.text_field :title, class: "label" %>
+  </div>
+
+  <div class="mb-6">
+    <%= form.label :decription, class: "label" %>
+    <%= form.text_area :decription, class: "label" %>
+  </div>
+
+  <div class="mb-6">
+  <% @domains = ['AI','ML','cloud','Physics']%>
+
+  <%= form.select :domain,
+                    options_for_select(@domains),
+                    {:prompt => "Select Domains"},
+                    {:multiple => true, :size => 2} %>
+
+  </div>
+
+  <div class="mb-6">
+    <%= form.label :stake, class: "label" %>
+    <%= form.text_field :stake, class: "label" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

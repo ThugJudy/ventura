@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @idea.title %>
+</p>
+
+<p>
+  <strong>Decription:</strong>
+  <%= @idea.decription %>
+</p>
+
+<p>
+  <strong>Domain:</strong>
+  <%= @idea.domain %>
+</p>
+
+<p>
+  <strong>Stake:</strong>
+  <%= @idea.stake %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= uname? @idea.user_id %>
+</p>
+
+<%= link_to 'Edit', edit_idea_path(@idea) %> |
+<%= link_to 'Back', ideas_path %>

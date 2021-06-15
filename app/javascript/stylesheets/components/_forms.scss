@@ -6,31 +6,29 @@
 }
 
 .input {
-  @apply appearance-none block w-full text-gray-700 border border-gray-400 rounded px-3 leading-tight bg-white shadow-inner;
-  padding-top: .65rem;
-  padding-bottom: .65rem;
+  @apply appearance-none block w-full bg-white text-gray-800 rounded py-3 px-4 leading-tight;
+
+  &.input-with-border {
+    @apply border;
+  }
 }
 
-.input:focus,
-.input:hover {
-  @extend %focus-style;
+.input:focus {
+  @apply outline-none bg-white;
 }
 
 .label {
-  @apply block text-gray-700 text-sm font-bold mb-2;
+  @apply block text-green-600 font-bold mb-2;
 }
 
 .select {
-  @apply appearance-none py-3 px-4 pr-8 block w-full bg-white border border-gray-300 text-gray-700 rounded leading-tight;
+  @apply appearance-none py-3 px-4 pr-8 block w-full bg-white text-gray-800
+   rounded leading-tight border-2 ;
   -webkit-appearance: none;
-
 }
 
 .select:focus {
-  @apply outline-none border-gray-400;
-
-  box-shadow: 0 0 0 0.2rem theme("colors.gray.100");
-  background-clip: padding-box;
+  @apply outline-none bg-white;
 }
 
 .caret {
@@ -46,7 +44,7 @@
     z-index: 2;
     cursor: pointer;
 
-    @apply inline-block opacity-0 pl-0 pr-0 py-3 px-3 overflow-hidden absolute border-none;
+    @apply inline-block opacity-0 pl-0 pr-0 py-3 px-3 overflow-hidden ;
 
     + label {
       @extend .btn;
@@ -76,7 +74,7 @@
       background-image: url('../images/icons/checkmark.svg');
       background-size: 10px 10px;
       border-radius: 2px;
-      @apply bg-blue-500 border-transparent text-white bg-no-repeat bg-center transition ease-in-out duration-100 shadow-none;
+     
     }
 
     &:disabled {
@@ -154,3 +152,4 @@
     }
   }
 }
+
