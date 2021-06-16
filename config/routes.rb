@@ -1,11 +1,15 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  get 'favourites/update'
+  get 'users/favourite', to: 'users#favourite'
+  post 'ideas/filtered', to:'ideas#filtered'
   resources :ideas
     authenticate :user, lambda { |u| u.admin? } do
       mount Sidekiq::Web => '/sidekiq'
     end
-
+  
+ 
   
   devise_for :users
   resources :users, only: [:index, :show]

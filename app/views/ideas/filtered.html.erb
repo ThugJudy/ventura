@@ -7,7 +7,7 @@
       <h2 class="mb-2 text-2xl font-bold"><%= uname? idea.user_id %>'s <%= idea.title %></h2>
       <div class="my-1"></div>
       available stake: <%= idea.stake %> %
-       <%=idea.domain%>
+   <%=idea.domain%>
       <div class="grid grid-cols-3 gap-4">
         <% if author_of(idea) %>
           <%= link_to 'Edit Project', edit_idea_path(idea), class: "btn btn-default border-2 border-green-700 text-gray-100 bg-gray-900 inline-block text-center my-2" %>

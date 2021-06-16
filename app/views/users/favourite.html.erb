@@ -1,0 +1,4 @@
+<h1> Your Favourite </h1>
+<% current_user.favourites.each do |favourite| %>
+<h1><%= link_to favourite.idea.title, favourite.idea%></h1>
+<%end%>

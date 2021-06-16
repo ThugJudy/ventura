@@ -3,18 +3,42 @@ class IdeasController < ApplicationController
   before_action :authenticate_user!
   before_action :check_user, only: %i[show edit update destroy]
   
-
   # GET /ideas or /ideas.json
   def index
-    if current_user.admin?
-      @ideas = Idea.paginate(page: params[:page], per_page: 12)
+    if current_user.ideas.count == 0
+      render html: "no ideas"
+  else
+    if params.has_key?(:dom)
+      @ideas = Idea.where(domain: params[:dom])
     else
-      @ideas = current_user.ideas.paginate(page: params[:page], per_page: 12)
+      @ideas = Idea.all
+    end
+    if current_user.admin?
+      @ideas = @ideas.paginate(page: params[:page], per_page: 12)
+    else
+      @ideas = @ideas.find_by(user_id: current_user.id).paginate(page: params[:page], per_page: 12)
+    end
+  end
+  end
+
+  def filtered
+    byebug
+    if params.has_key?(:dom)
+      @ideas = Idea.where(domain: params[:dom])
+    else
+      @ideas = Idea.all
+    end
+byebug
+    if current_user.admin?
+      @ideas = @ideas.paginate(page: params[:page], per_page: 12)
+    else
+      @ideas = @ideas.find_by(user_id: current_user.id).paginate(page: params[:page], per_page: 12)
     end
   end
 
   # GET /ideas/1 or /ideas/1.json
   def show
+    @favourite_exists = Favourite.where(idea: @idea, user: current_user) ==[] ? false : true
   end
 
   # GET /ideas/new
@@ -28,7 +52,7 @@ class IdeasController < ApplicationController
 
   # POST /ideas or /ideas.json
   def create
-    byebug
+
     domain = params[:idea][:domain].map(&:inspect).join(',')
     domain = domain.remove("\\","\"")
     @idea = Idea.new({"title"=>params[:idea][:title], "decription"=>params[:idea][:decription], "domain"=>domain, "stake"=>params[:idea][:stake]})

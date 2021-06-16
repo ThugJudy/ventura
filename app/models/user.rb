@@ -7,6 +7,6 @@ has_person_name
          :recoverable, :rememberable, :validatable
                 
   has_many :ideas, dependent: :destroy
-  has_many :messages
+  has_many :favourites
   has_many :conversations, foreign_key: :sender_id
 end

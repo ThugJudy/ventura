@@ -2,7 +2,11 @@
   <%= will_paginate @users %>
   
   <% @users.each do |user| %>
-    <li><%= link_to  user.name, user%></li>
+    <li>
+    <div class="inline-block nudge-down-10">
+    <%= link_to  gravatar_for user, size:32%></div>
+    <%=user.name%>
+    <%=user.ideas.count%></li>
   <%end%>
 </ul>
 

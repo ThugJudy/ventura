@@ -1,29 +1,60 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @idea.title %>
-</p>
+<div class="container relative p-6 mx-auto text-gray-900 bg-white rounded-lg lg:p-10">
+  <div class="flex flex-wrap items-center justify-between w-full pb-4 mb-8 border-b-2 border-gray-200">
+    <div class="flex flex-wrap items-start justify-between w-full pb-4 mb-4 border-b-2 border-gray-200">
+      <div class="flex-1">
+        <h1 class="text-3xl font-bold leading-none text-gray-800"><%= @idea.title %></h1>
+        <p class="text-sm italic text-gray-500">Created by <%= @idea.user.name ||=
+      @idea.user.name %></p>
+      </div>
 
-<p>
-  <strong>Decription:</strong>
-  <%= @idea.decription %>
-</p>
 
-<p>
-  <strong>Domain:</strong>
-  <%= @idea.domain %>
-</p>
+  <div class="flex flex-wrap items-start justify-between w-full mb-6">
+    <div class="w-full lg:w-3/5">
+    <% if @idea.thumbnail.present? %>
+      <%= image_tag @idea.thumbnail, class: "rounded" %>
+    <% else %>
+      <div class="flex items-center justify-center p-8 text-center bg-gray-100 rounded">
+        <div class="">
+          <p class="text-xs font-bold text-gray-600 uppercase">idea</p>
+          <h3 class="text-2xl text-black"><%= @idea.title %></h3>
+        </div>
+      </div>
+    <% end %>
+    </div>
 
-<p>
-  <strong>Stake:</strong>
-  <%= @idea.stake %>
-</p>
+    <%= link_to favourite_text, favourites_update_path(idea: @idea),
+    id: 'favourite_link', remote: true %>
 
-<p>
-  <strong>User:</strong>
-  <%= uname? @idea.user_id %>
-</p>
+    <div class="w-full mt-6 lg:pl-10 lg:w-2/5 lg:mt-0">
+      <div class="mb-6">
+        <p class="text-sm font-semibold text-gray-500 uppercase">Decription</p>
+        <%= @idea.decription %>
+      </div>
+    </div>
+   <div class="w-full mt-6 lg:pl-10 lg:w-2/5 lg:mt-0">
+      <div class="mb-6">
+        <p class="text-sm font-semibold text-gray-500 uppercase">Domain</p>
+        <%= @idea.domain %>
+      </div>
+      </div>
+      <h3 class="text-2xl text-gray-900">Back this idea</h3>
 
-<%= link_to 'Edit', edit_idea_path(@idea) %> |
-<%= link_to 'Back', ideas_path %>
+
+      <div class="mb-6">
+        <p class="text-sm font-semibold text-gray-500 uppercase">Contact</p>
+        <%= @idea.user.email %>
+      </div>
+
+    </div>
+  </div>
+
+ <% if author_of(@idea) %>
+    <div class="absolute top-0 right-0 mt-4 mr-4">
+      <%= link_to 'Edit', edit_idea_path(@idea), class: "btn btn btn-default border-2 border-green-700 text-gray-100 bg-gray-900 inline-block text-center my-2" %>
+      <%= link_to 'Delete', idea_path(@idea), method: :delete, class: "btn btn btn-default border-2 border-green-700 text-gray-100 bg-gray-900 inline-block text-center my-2", data: { confirm: "Are you sure?" } %>
+    </div>
+  <% end %>
+  <%= link_to 'Back', ideas_path, class: "btn btn btn-default border-2 border-green-700 text-gray-100 bg-gray-900 inline-block text-center my-2" %>
+</div>
