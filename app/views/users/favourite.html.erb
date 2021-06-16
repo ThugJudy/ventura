@@ -1,4 +1,19 @@
-<h1> Your Favourite </h1>
+<h1> Your Favourite Ideas </h1>
 <% current_user.favourites.each do |favourite| %>
-<h1><%= link_to favourite.idea.title, favourite.idea%></h1>
+<div class="relative w-full p-6 border-2 border-green-700 rounded-lg lg:w-1/4 lg:mr-8">
+      <%= image_tag favourite.idea.thumbnail.variant(resize_to_limit: [600, 400]), class: "rounded" if favourite.idea.thumbnail.present? %>
+      <h2 class="mb-2 text-2xl font-bold"><%= uname? favourite.idea.user_id %>'s <%= favourite.idea.title %></h2>
+      <div class="my-1"></div>
+      available stake: <%= favourite.idea.stake %> %
+       <%=favourite.idea.domain%>
+      <div class="grid grid-cols-3 gap-4">
+        <% if author_of(favourite.idea) %>
+          <%= link_to 'Edit Project', edit_idea_path(favourite.idea), class: "btn btn-default border-2 border-green-700 text-gray-100 bg-gray-900 inline-block text-center my-2" %>
+        <%end%>
+        <%= link_to 'View Project', favourite.idea, class: "btn btn-default border-2 border-green-700 text-gray-100 bg-gray-900 inline-block text-center my-2" %>
+        <% if author_of(favourite.idea) %>
+          <%= link_to 'Delete Project', favourite.idea, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-default border-2 border-green-700 text-gray-100 bg-gray-900 inline-block text-center my-2" %>
+        <%end%>
+      </div>
+    </div>    
 <%end%>

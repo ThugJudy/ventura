@@ -3,7 +3,7 @@
     <div id="error_explanation" class="bg-white p-6 rounded text-red-500 mb-5">
       <h2  class="text-red-500 font-bold"><%= pluralize(idea.errors.count, "error") %> prohibited this idea from being saved:</h2>
       <ul>
-        <% idea.errors.full_message.each do |error| %>
+        <% idea.errors.full_messages.each do |error| %>
           <li><%= error %></li>
         <% end %>
       </ul>
@@ -17,12 +17,12 @@
 
   <div class="mb-6">
     <%= form.label :title, class: "label" %>
-    <%= form.text_field :title, class: "label" %>
+    <%= form.text_field :title, class: "label", required: "required" %>
   </div>
 
   <div class="mb-6">
-    <%= form.label :decription, class: "label" %>
-    <%= form.text_area :decription, class: "label" %>
+    <%= form.label :description, class: "label" %>
+    <%= form.text_area :decription, class: "label",  required: "required" %>
   </div>
 
   <div class="mb-6">
@@ -37,7 +37,7 @@
 
   <div class="mb-6">
     <%= form.label :stake, class: "label" %>
-    <%= form.text_field :stake, class: "label" %>
+    <%= form.text_field :stake, type: "number", class: "label", required: "required" %>
   </div>
 
   <div class="actions">

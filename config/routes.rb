@@ -3,8 +3,9 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   get 'favourites/update'
   get 'users/favourite', to: 'users#favourite'
-  post 'ideas/filtered', to:'ideas#filtered'
+  post 'filtered/ideas', to:'ideas#filtered'
   resources :ideas
+  post 'ideas/create', to: 'ideas#create'
     authenticate :user, lambda { |u| u.admin? } do
       mount Sidekiq::Web => '/sidekiq'
     end

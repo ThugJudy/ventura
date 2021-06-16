@@ -1,38 +1,50 @@
 class IdeasController < ApplicationController
-  before_action :set_idea, only: %i[ show edit update destroy ]
+  require 'will_paginate/array'
+  before_action :set_idea, only: %i[show edit update destroy ]
   before_action :authenticate_user!
   before_action :check_user, only: %i[show edit update destroy]
-  
+  before_action :del_cache, except: [:index, :filtered]
+  @id = Idea.all 
   # GET /ideas or /ideas.json
   def index
-    if current_user.ideas.count == 0
-      render html: "no ideas"
-  else
-    if params.has_key?(:dom)
-      @ideas = Idea.where(domain: params[:dom])
+    
+    if session[:dom] 
+      domain = session[:dom]
+      
+      @ideas = Idea.where(id: Favourite.find_by(user_id: 101).idea_id)
+      domain.each do |d|
+        @ideas |= Idea.where "domain LIKE ?", "%#{d}%"
+      end
+      
+      if current_user.admin?
+        @ideas &= Idea.where "user_id != ?","#{current_user.id}"
+      else
+        
+        @ideas &= Idea.where(user_id: current_user.id)
+        
+      end
     else
-      @ideas = Idea.all
+      if current_user.admin?
+        @ideas =Idea.all
+      else
+        @ideas = current_user.ideas
+      end
     end
+    
     if current_user.admin?
       @ideas = @ideas.paginate(page: params[:page], per_page: 12)
     else
-      @ideas = @ideas.find_by(user_id: current_user.id).paginate(page: params[:page], per_page: 12)
+      @ideas = @ideas.paginate(page: params[:page], per_page: 12)
     end
-  end
   end
 
   def filtered
-    byebug
+    
     if params.has_key?(:dom)
-      @ideas = Idea.where(domain: params[:dom])
-    else
-      @ideas = Idea.all
-    end
-byebug
-    if current_user.admin?
-      @ideas = @ideas.paginate(page: params[:page], per_page: 12)
-    else
-      @ideas = @ideas.find_by(user_id: current_user.id).paginate(page: params[:page], per_page: 12)
+      params[:dom].shift
+      domain = params[:dom]
+      session[:dom] = domain
+      redirect_back fallback_location: ideas_path
     end
   end
 
@@ -43,6 +55,9 @@ byebug
 
   # GET /ideas/new
   def new
+    if current_user.admin?
+      redirect_to ideas_path
+    end
     @idea = Idea.new
   end
 
@@ -52,9 +67,11 @@ byebug
 
   # POST /ideas or /ideas.json
   def create
-
-    domain = params[:idea][:domain].map(&:inspect).join(',')
-    domain = domain.remove("\\","\"")
+    if current_user.admin?
+      redirect_to ideas_path
+    end
+    params[:idea][:domain].shift
+    domain = params[:idea][:domain].join(',')
     @idea = Idea.new({"title"=>params[:idea][:title], "decription"=>params[:idea][:decription], "domain"=>domain, "stake"=>params[:idea][:stake]})
     @idea.user_id = current_user.id
 
@@ -72,8 +89,8 @@ byebug
   # PATCH/PUT /ideas/1 or /ideas/1.json
   def update
     respond_to do |format|
-      domain = params[:idea][:domain].map(&:inspect).join(',')
-      domain = domain.remove("\\","\"")
+      params[:idea][:domain].shift
+      domain = params[:idea][:domain].join(',')
       if @idea.update({"title"=>params[:idea][:title], "decription"=>params[:idea][:decription], "domain"=>domain, "stake"=>params[:idea][:stake]})
         format.html { redirect_to @idea, notice: "Idea was successfully updated." }
         format.json { render :show, status: :ok, location: @idea }
@@ -106,9 +123,16 @@ byebug
       @idea = Idea.find(params[:id])
     end
 
+  def del_cache
+    
+    if session[:dom] 
+      session.delete(:dom)
+    end 
+    
+  end
     # Only allow a list of trusted parameters through.
     # def idea_params
-    #   byebug
+    #   
     #   params.require(:idea).permit(:thumbnail, :title, :decription, :domain, :stake, :user)
     # end
 end

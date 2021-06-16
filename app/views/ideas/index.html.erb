@@ -1,6 +1,9 @@
 <div class="flex flex-wrap items-start justify-start">
 <%= render 'shared/multi_select'%>
-<%= will_paginate @ideas%>
+<%if @ideas%>
+  <div class="mx-auto text-center my-4">
+    <%= will_paginate @ideas %>
+  </div>
   <% @ideas.each do |idea| %>
     <div class="relative w-full p-6 border-2 border-green-700 rounded-lg lg:w-1/4 lg:mr-8">
       <%= image_tag idea.thumbnail.variant(resize_to_limit: [600, 400]), class: "rounded" if idea.thumbnail.present? %>
@@ -21,6 +24,7 @@
   <% end %>
   <div class="mx-auto text-center my-4">
     <%= will_paginate @ideas %>
+   <%end%>
   </div>
 </div>
 <%if !admin?%>

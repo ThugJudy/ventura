@@ -1,7 +1,7 @@
 
 <%@domains = ['AI','ML','cloud','Physics']  %>
 
-<%=form_with url: ideas_filtered_path do |form|%>
+<%=form_with url: filtered_ideas_path do |form|%>
   <%= form.select :dom, 
                     options_for_select(@domains),
                     {},
