@@ -1,0 +1,12 @@
+<%= form_with( model: @room, local: true, multipart: true) do |form| %>
+
+
+  <div class="mb-6">
+    <%= form.label :Name, class: "label" %>
+    <%= form.text_field :name, class: "label", required: "required" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

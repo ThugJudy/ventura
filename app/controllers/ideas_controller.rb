@@ -4,7 +4,7 @@ class IdeasController < ApplicationController
   before_action :authenticate_user!
   before_action :check_user, only: %i[show edit update destroy]
   before_action :del_cache, except: [:index, :filtered]
-  @id = Idea.all 
+
   # GET /ideas or /ideas.json
   def index
     
@@ -51,7 +51,6 @@ class IdeasController < ApplicationController
   end
 
   def filtered
-    
     if params.has_key?(:dom)
       params[:dom].shift
       domain = params[:dom]
