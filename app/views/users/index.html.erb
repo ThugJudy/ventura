@@ -1,13 +1,19 @@
 <ul>
+<div class="mx-auto text-center my-4">
   <%= will_paginate @users %>
-  
+</div>
+  <div class="flex auto:flex-col items-start justify-start">
   <% @users.each do |user| %>
+    <div class="relative  text-center  p-6 border-2 border-green-700 rounded-lg lg:w-1/4 lg:mr-8">
     <li>
-    <div class="inline-block nudge-down-10">
-    <%= link_to  gravatar_for user, size:32%></div>
-    <%=user.name%>
-    <%=user.ideas.count%></li>
+      <div class="inline-block nudge-down-10">
+      <%= link_to  gravatar_for user, size:32%></div>
+      <%= link_to user.name, user%>
+      <%=user.ideas.count%>
+    </li>
+    </div>
   <%end%>
+  </div>
 </ul>
 
 <div class="mx-auto text-center my-4">

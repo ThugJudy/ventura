@@ -11,7 +11,7 @@ class IdeasController < ApplicationController
     if session[:dom] 
       domain = session[:dom]
       
-      @ideas = Idea.where(id: Favourite.find_by(user_id: 101).idea_id)
+      @ideas = Idea.where(domain: '111')
       domain.each do |d|
         @ideas |= Idea.where "domain LIKE ?", "%#{d}%"
       end
@@ -19,9 +19,7 @@ class IdeasController < ApplicationController
       if current_user.admin?
         @ideas &= Idea.where "user_id != ?","#{current_user.id}"
       else
-        
         @ideas &= Idea.where(user_id: current_user.id)
-        
       end
     else
       if current_user.admin?
@@ -30,12 +28,26 @@ class IdeasController < ApplicationController
         @ideas = current_user.ideas
       end
     end
-    
-    if current_user.admin?
-      @ideas = @ideas.paginate(page: params[:page], per_page: 12)
-    else
-      @ideas = @ideas.paginate(page: params[:page], per_page: 12)
+
+    @id = []
+  
+    current_user.favourites.each do |fav|
+      #@ideas.delete(Idea.find(fav.idea_id))
+      @id = @id.append(Idea.find(fav.idea_id))
     end
+ 
+    @ideas.each do |idea|
+      if !@id.include?(idea)
+        @id.append(idea)     
+      end
+    end
+
+    # @id.sort_by(&:@id.title)
+    # @ideas.sort_by(&:@ideas.title)
+    @ideas = @id 
+
+    @ideas = @ideas.paginate(page: params[:page], per_page: 12)
+    
   end
 
   def filtered

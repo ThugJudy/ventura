@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @ids = @user.ideas.where(domain: @resdom).paginate(page: params[:page], per_page: 12)
+    @ids = @user.ideas.paginate(page: params[:page], per_page: 12)
   end
 
   def favourite
@@ -17,11 +17,11 @@ class UsersController < ApplicationController
 
   private
   def check_user
-    if current_user.id != Idea.find(params[:id]).user_id
-      if !current_user.admin?
+    if !current_user.admin?
+      if current_user.id != Idea.find(params[:id]).user_id
         render 'home/error'
+      end
     end
-  end
   end
 
 end

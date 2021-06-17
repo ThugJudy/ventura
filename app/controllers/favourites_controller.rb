@@ -6,7 +6,7 @@ class FavouritesController < ApplicationController
       Favourite.create(idea: Idea.find(params[:idea]),user: current_user)
       @favourite_exists = true
     else
-      Favourite.destroy_all
+      favourite.destroy_all
       favourite_exists = false
     end
     respond_to do |format|

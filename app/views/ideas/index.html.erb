@@ -5,13 +5,13 @@
     <%= will_paginate @ideas %>
   </div>
   <% @ideas.each do |idea| %>
-    <div class="relative w-full p-6 border-2 border-green-700 rounded-lg lg:w-1/4 lg:mr-8">
-      <%= image_tag idea.thumbnail.variant(resize_to_limit: [600, 400]), class: "rounded" if idea.thumbnail.present? %>
-      <h2 class="mb-2 text-2xl font-bold"><%= uname? idea.user_id %>'s <%= idea.title %></h2>
-      <div class="my-1"></div>
-      available stake: <%= idea.stake %> %
-       <%=idea.domain%>
-      <div class="grid grid-cols-3 gap-4">
+    <div class="relative mx-auto text-center w-full p-6 border-2 border-green-700 rounded-lg lg:w-1/4 lg:mr-8">
+        <%= image_tag idea.thumbnail.variant(resize_to_limit: [600, 400]), class: "rounded" if idea.thumbnail.present? %>
+        <h2 class="mb-2 text-2xl font-bold"><%= uname? idea.user_id %>'s <%= idea.title %></h2>
+        <div class="my-1"></div>
+        <p> available stake: <%= idea.stake %> %</p>
+        <p><%=idea.domain%></p>
+        <div class="grid grid-cols-3 gap-4">
         <% if author_of(idea) %>
           <%= link_to 'Edit Project', edit_idea_path(idea), class: "btn btn-default border-2 border-green-700 text-gray-100 bg-gray-900 inline-block text-center my-2" %>
         <%end%>
@@ -24,9 +24,9 @@
   <% end %>
   <div class="mx-auto text-center my-4">
     <%= will_paginate @ideas %>
-   <%end%>
   </div>
-</div>
+<%end%>
 <%if !admin?%>
 <%= link_to 'New Idea', new_idea_path %>
 <%end%>
+</div>
