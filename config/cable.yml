@@ -1,12 +1,10 @@
 development:
-  adapter: redis
-  url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
-  channel_prefix: rails-chat-tutorial_development
+  adapter: async
 
 test:
-  adapter: async
+  adapter: test
 
 production:
   adapter: redis
   url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
-  channel_prefix: rails-chat-tutorial_production
+  channel_prefix: ventura_production

@@ -1,7 +1,6 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-
   get 'favourites/update'
   get 'users/favourite', to: 'users#favourite'
   post 'filtered/ideas', to:'ideas#filtered'
@@ -18,7 +17,5 @@ Rails.application.routes.draw do
   resources :conversations
   root to: 'ideas#index'
   resources :messages
-  resources :room_messages
-  resources :rooms
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
