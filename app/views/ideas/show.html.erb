@@ -24,29 +24,23 @@
     <% end %>
     </div>
 
-    <%= link_to favourite_text, favourites_update_path(idea: @idea),
-    id: 'favourite_link', remote: true %>
+
 
     <div class="w-full mt-6 lg:pl-10 lg:w-2/5 lg:mt-0">
+      <div class="mb-6">
+      <%= link_to favourite_text, favourites_update_path(idea: @idea),
+    id: 'favourite_link', remote: true %>
+    </div>
       <div class="mb-6">
         <p class="text-sm font-semibold text-gray-500 uppercase">Decription</p>
         <%= @idea.decription %>
       </div>
-    </div>
-   <div class="w-full mt-6 lg:pl-10 lg:w-2/5 lg:mt-0">
       <div class="mb-6">
         <p class="text-sm font-semibold text-gray-500 uppercase">Domain</p>
         <%= @idea.domain %>
-      </div>
-      </div>
-      <h3 class="text-2xl text-gray-900">Back this idea</h3>
-
-
-      <div class="mb-6">
         <p class="text-sm font-semibold text-gray-500 uppercase">Contact</p>
         <%= @idea.user.email %>
       </div>
-
     </div>
   </div>
 

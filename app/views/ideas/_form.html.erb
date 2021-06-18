@@ -1,3 +1,4 @@
+<div class="block mx-auto px-40 py-10 my-10 border-2 border-green-700 rounded-lg ">
 <%= form_with( model: idea, local: true, multipart: true) do |form| %>
   <% if idea.errors.any? %>
     <div id="error_explanation" class="bg-white p-6 rounded text-red-500 mb-5">
@@ -31,7 +32,7 @@
   <%= form.select :domain,
                     options_for_select(@domains),
                     {:prompt => "Select Domains"},
-                    {:multiple => true, :size => 2} %>
+                    {:multiple => true, } %>
 
   </div>
 
@@ -41,6 +42,6 @@
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class:"btn btn default"%>
   </div>
 <% end %>

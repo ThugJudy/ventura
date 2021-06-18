@@ -1,12 +1,16 @@
-<div class="flex flex-wrap items-start justify-start">
-<%= render 'shared/multi_select'%>
-<%if @ideas%>
   <div class="mx-auto text-center my-4">
     <%= will_paginate @ideas %>
   </div>
+
+<%= render 'shared/multi_select'%>
+<div class="flex mx-auto text-center flex-wrap items-center justify-center p-6">
+
+
   <% @ideas.each do |idea| %>
-    <div class="relative mx-auto text-center w-full p-6 border-2 border-green-700 rounded-lg lg:w-1/4 lg:mr-8">
-        <%= image_tag idea.thumbnail.variant(resize_to_limit: [600, 400]), class: "rounded" if idea.thumbnail.present? %>
+    <div class="block mx-auto text-center itmes-center justify-center  p-6 my-10 border-2 border-green-700 rounded-lg ">
+    
+        <%= image_tag idea.thumbnail.variant(resize_to_limit: [600, 400], ), class: "rounded" if idea.thumbnail.present? %>
+
         <h2 class="mb-2 text-2xl font-bold"><%= uname? idea.user_id %>'s <%= idea.title %></h2>
         <div class="my-1"></div>
         <p> available stake: <%= idea.stake %> %</p>
@@ -22,11 +26,10 @@
       </div>
     </div>    
   <% end %>
+</div>
+
+
+
   <div class="mx-auto text-center my-4">
     <%= will_paginate @ideas %>
   </div>
-<%end%>
-<%if !admin?%>
-<%= link_to 'New Idea', new_idea_path %>
-<%end%>
-</div>

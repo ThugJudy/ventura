@@ -36,6 +36,10 @@ class IdeasController < ApplicationController
       @id = @id.append(Idea.find(fav.idea_id))
     end
  
+
+    if @ideas !=[]
+      @ideas = @ideas.order(updated_at: :desc)
+    end
     @ideas.each do |idea|
       if !@id.include?(idea)
         @id.append(idea)     
@@ -82,9 +86,10 @@ class IdeasController < ApplicationController
     if current_user.admin?
       redirect_to ideas_path
     end
+    #byebug
     params[:idea][:domain].shift
     domain = params[:idea][:domain].join(',')
-    @idea = Idea.new({"title"=>params[:idea][:title], "decription"=>params[:idea][:decription], "domain"=>domain, "stake"=>params[:idea][:stake]})
+    @idea = Idea.new({"title"=>params[:idea][:title], "decription"=>params[:idea][:decription], "domain"=>domain, "stake"=>params[:idea][:stake], "thumbnail"=> params[:idea][:thumbnail]})
     @idea.user_id = current_user.id
 
     respond_to do |format|
@@ -103,7 +108,7 @@ class IdeasController < ApplicationController
     respond_to do |format|
       params[:idea][:domain].shift
       domain = params[:idea][:domain].join(',')
-      if @idea.update({"title"=>params[:idea][:title], "decription"=>params[:idea][:decription], "domain"=>domain, "stake"=>params[:idea][:stake]})
+      if @idea.update({"title"=>params[:idea][:title], "decription"=>params[:idea][:decription], "domain"=>domain, "stake"=>params[:idea][:stake], "thumbnail"=> params[:idea][:thumbnail]})
         format.html { redirect_to @idea, notice: "Idea was successfully updated." }
         format.json { render :show, status: :ok, location: @idea }
       else
