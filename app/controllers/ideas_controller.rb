@@ -9,13 +9,11 @@ class IdeasController < ApplicationController
   def index
     
     if session[:dom] 
-      domain = session[:dom]
-      
+      domain = session[:dom]    
       @ideas = Idea.where(domain: '111')
       domain.each do |d|
         @ideas |= Idea.where "domain LIKE ?", "%#{d}%"
       end
-      
       if current_user.admin?
         @ideas &= Idea.where "user_id != ?","#{current_user.id}"
       else
@@ -33,15 +31,21 @@ class IdeasController < ApplicationController
   
     current_user.favourites.each do |fav|
       #@ideas.delete(Idea.find(fav.idea_id))
-      @id = @id.append(Idea.find(fav.idea_id))
+      if session[:dom]  
+        domain = session[:dom] 
+        dom = Idea.find(fav.idea_id).domain.split(',')
+        if dom & domain != []
+          @id = @id.append(Idea.find(fav.idea_id))
+        end
+      end
     end
- 
 
-    if @ideas !=[]
-      @ideas = @ideas.order(updated_at: :desc)
-    end
+    
+
     @ideas.each do |idea|
-      if !@id.include?(idea)
+      if @id == []
+        @id.append(idea)
+      elsif !@id.include?(idea)
         @id.append(idea)     
       end
     end
